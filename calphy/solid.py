@@ -214,9 +214,10 @@ class Solid(cph.Phase):
             self.calc.md.cmdargs, 
             init_commands=self.calc.md.init_commands,
             script_mode=self.calc.script_mode)
-
         #set up potential
         if self.calc.potential_file is None:
+            import lammps.mliap
+            lammps.mliap.activate_mliappy_kokkos(lmp)
             lmp.command(f'pair_style {self.calc._pair_style_with_options[0]}')
 
         #set up structure
@@ -293,7 +294,6 @@ class Solid(cph.Phase):
             self.calc.md.cmdargs, 
             init_commands=self.calc.md.init_commands,
             script_mode=self.calc.script_mode)
-
         #set up potential
         if self.calc.potential_file is None:
             lmp.command(f'pair_style {self.calc._pair_style_with_options[0]}')
@@ -374,9 +374,10 @@ class Solid(cph.Phase):
             self.calc.md.cmdargs, 
             init_commands=self.calc.md.init_commands,
             script_mode=self.calc.script_mode)
-
         #set up potential
         if self.calc.potential_file is None:
+            import lammps.mliap
+            lammps.mliap.activate_mliappy_kokkos(lmp)
             lmp.command(f'pair_style {self.calc._pair_style_with_options[0]}')
         
         #read in the conf file

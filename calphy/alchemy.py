@@ -80,7 +80,9 @@ class Alchemy(cph.Phase):
         """
         lmp = ph.create_object(self.cores, self.simfolder, self.calc.md.timestep, 
             self.calc.md.cmdargs, self.calc.md.init_commands)
-
+        
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f'pair_style {self.calc._pair_style_with_options[0]}')
 
         #set up structure
@@ -150,7 +152,8 @@ class Alchemy(cph.Phase):
         # Adiabatic switching parameters.
         lmp.command("variable        li       equal   1.0")
         lmp.command("variable        lf       equal   0.0")
-
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f'pair_style {self.calc._pair_style_with_options[0]}')
         
         #read dump file

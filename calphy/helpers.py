@@ -71,10 +71,20 @@ def create_object(cores, directory, timestep, cmdargs="",
     else:
         if cmdargs == "":
             cmdargs = None
+        """
         lmp = LammpsLibrary(
-            cores=cores, working_directory=directory, cmdargs=cmdargs
+            cores=cores, working_directory=directory, cmdargs=[
+            "-k", "on", "g", "1",       # 启用Kokkos GPU支持
+            "-sf", "kk",                # 使用Kokkos加速样式
+            "-pk", "kokkos", "newton", "on", "neigh", "half"  # Kokkos包选项
+        ]
         )
-
+        
+        import ctypes
+        lib_path = "/root/lammps/src/liblammps.so"
+        lmp.lib = ctypes.CDLL(lib_path)
+        """
+        lmp = lammps(cmdargs=["-k", "on", "g", "1", "-sf", "kk", "-pk", "kokkos", "newton", "on", "neigh", "half"])
     commands = [["units", "metal"], 
     ["boundary", "p p p"],
     ["atom_style", "atomic"],
@@ -146,6 +156,8 @@ def set_potential(lmp, options):
     """
     #lmp.pair_style(options.pair_style_with_options[0])
     #lmp.pair_coeff(options.pair_coeff[0])
+    import lammps.mliap
+    lammps.mliap.activate_mliappy(lmp)
     lmp.command(f'pair_style {options._pair_style_with_options[0]}')
     lmp.command(f'pair_coeff {options.pair_coeff[0]}')
 

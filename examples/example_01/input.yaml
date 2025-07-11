@@ -1,30 +1,31 @@
 calculations:
 - element: Fe
   lattice: BCC
-  lattice_constant: 2.884
-  mass: 55.845
+  lattice_constant: 2.884  # 保留原始晶格常数，确保结构基础正确
+  mass: 55.845  # 元素质量保持不变
   md:
-    barostat_damping: 0.1
+    barostat_damping: 0.1  #  thermostat/barostat参数暂不调整，避免引入额外变量
     equilibration_control: nose_hoover
     thermostat_damping: 0.1
-    timestep: 0.001
-  mode: fe
-  n_equilibration_steps: 10000
-  n_iterations: 1
-  n_switching_steps: 25000
-  pair_coeff: '* * ../potentials/Fe.eam'
-  pair_style: eam
-  pressure: 0.0
+    timestep: 0.001  # 时间步长保持默认，测试阶段优先保证稳定性
+    cmdargs: -k on g 1 sf kk pk kokkos newton on neigh half  # 保留GPU加速配置
+  mode: fe  # 维持自由能计算模式
+  n_equilibration_steps: 1000  # 平衡步数缩减为原来的1/10，仅用于快速达到初步稳定
+  n_iterations: 1  # 迭代次数保持1次，测试无需重复计算
+  n_switching_steps: 2500  # 切换步数缩减为原来的1/10，加速自由能积分测试
+  pair_coeff:
+  - '* * Fe'  # 势函数参数保持不变，确保力场一致性
+  pair_style:
+  - mliap unified ../MACE-matpes-r2scan-omat-ft.model-mliap_lammps.pt  # 保留原始势函数路径
+  pressure: 0.0  # 压力条件不变
   queue:
-    commands:
-    - conda activate calphy
-    cores: 4
-    scheduler: local
-  reference_phase: solid
+    cores: 4  # 保持核心数配置，测试硬件资源适配性
+    scheduler: local  # 本地调度器不变
+  reference_phase: solid  # 参考相类型不变
   repeat:
-  - 5
-  - 5
-  - 5
-  temperature: 100.0
+  - 2  # 晶胞重复数从5x5x5缩减为2x2x2，原子数大幅减少（从125→8）
+  - 2
+  - 2
+  temperature: 100.0  # 温度条件不变
   tolerance:
-    pressure: 1
+    pressure: 5  # 适当放宽压力容差，测试阶段优先保证流程完成

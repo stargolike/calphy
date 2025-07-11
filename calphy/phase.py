@@ -276,7 +276,8 @@ class Phase:
     def check_if_melted(self, lmp, filename):
         """ """
         solids = ph.find_solid_fraction(os.path.join(self.simfolder, filename))
-        if solids / lmp.natoms < self.calc.tolerance.solid_fraction:
+        natoms = lmp.get_natoms()  # 使用统一的 API 方法
+        if solids / natoms < self.calc.tolerance.solid_fraction:
             lmp.close()
             raise MeltedError(
                 "System melted, increase size or reduce temp!\n Solid detection algorithm only works with BCC/FCC/HCP/SC/DIA. Detection algorithm can be turned off by setting:\n tolerance.solid_fraction: 0"
@@ -285,7 +286,8 @@ class Phase:
     def check_if_solidfied(self, lmp, filename):
         """ """
         solids = ph.find_solid_fraction(os.path.join(self.simfolder, filename))
-        if solids / lmp.natoms > self.calc.tolerance.liquid_fraction:
+        natoms = lmp.get_natoms()  # 使用统一的 API 方法
+        if solids / natoms > self.calc.tolerance.liquid_fraction:
             lmp.close()
             raise SolidifiedError("System solidified, increase temperature")
 
@@ -915,7 +917,8 @@ class Phase:
         lmp.command("echo              log")
         lmp.command("variable          li equal %f" % li)
         lmp.command("variable          lf equal %f" % lf)
-
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f"pair_style {self.calc._pair_style_with_options[0]}")
 
         # read in conf file
@@ -1256,7 +1259,8 @@ class Phase:
         lmp.command("echo              log")
         lmp.command("variable          li equal %f" % li)
         lmp.command("variable          lf equal %f" % lf)
-
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f"pair_style {self.calc._pair_style_with_options[0]}")
 
         # read in conf
@@ -1399,6 +1403,8 @@ class Phase:
         lmp.command("variable          p0 equal %f" % p0)
         lmp.command("variable          pf equal %f" % pf)
 
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f"pair_style {self.calc._pair_style_with_options[0]}")
 
         # read in conf

@@ -12,8 +12,8 @@ calculations:
   n_equilibration_steps: 10000
   n_iterations: 1
   n_switching_steps: 25000
-  pair_coeff: '* * ../potentials/Fe.eam'
-  pair_style: eam
+  pair_coeff: '* * Fe'
+  pair_style: 'mliap unified /root/test_mace_lammps/MACE-matpes-r2scan-omat-ft.model-mliap_lammps.pt 0'
   pressure: 0.0
   queue:
     commands:
@@ -41,8 +41,8 @@ calculations:
   n_equilibration_steps: 10000
   n_iterations: 1
   n_switching_steps: 25000
-  pair_coeff: '* * ../potentials/Fe.eam'
-  pair_style: eam
+  pair_coeff: '* * Fe'
+  pair_style: 'mliap unified /root/test_mace_lammps/MACE-matpes-r2scan-omat-ft.model-mliap_lammps.pt 0'
   pressure: 0.0
   queue:
     commands:

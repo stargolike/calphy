@@ -135,6 +135,8 @@ class Liquid(cph.Phase):
             self.calc.md.init_commands,
         )
 
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f"pair_style {self.calc._pair_style_with_options[0]}")
 
         # set up structure
@@ -206,6 +208,8 @@ class Liquid(cph.Phase):
         lmp.command("variable        li       equal   1.0")
         lmp.command("variable        lf       equal   0.0")
 
+        import lammps.mliap
+        lammps.mliap.activate_mliappy_kokkos(lmp)
         lmp.command(f"pair_style {self.calc._pair_style_with_options[0]}")
 
         # read in the conf file
