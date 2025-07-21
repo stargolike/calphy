@@ -1039,7 +1039,7 @@ class Phase:
         )
 
         lmp.command(
-            "pair_style       hybrid/scaled v_one %s v_fscale %s"
+            "pair_style       hybrid/scaled/kk v_one %s v_fscale %s"
             % (
                 self.calc._pair_style_with_options[0],
                 self.calc._pair_style_with_options[0],
@@ -1124,7 +1124,7 @@ class Phase:
         )
 
         lmp.command(
-            "pair_style       hybrid/scaled v_one %s v_bscale %s"
+            "pair_style       hybrid/scaled/kk v_one %s v_bscale %s"
             % (
                 self.calc._pair_style_with_options[0],
                 self.calc._pair_style_with_options[0],

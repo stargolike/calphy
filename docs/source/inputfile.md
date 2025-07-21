@@ -439,7 +439,7 @@ _example_:
 pair_coeff: "/home/calc/potential.inp"
 ```
 
-If specified, the `pair_style` and `pair_coeff` commands are not used, but rather the potential is read in from the provided input file using `include` command in LAMMPS. This allows the use of more complex or multiple potential files. Due to the `hybrid/scaled` styles employed in calphy, **this option only works with mode `fe` and `reference_phase` solid.**
+If specified, the `pair_style` and `pair_coeff` commands are not used, but rather the potential is read in from the provided input file using `include` command in LAMMPS. This allows the use of more complex or multiple potential files. Due to the `hybrid/scaled/kk` styles employed in calphy, **this option only works with mode `fe` and `reference_phase` solid.**
 
 ---
 

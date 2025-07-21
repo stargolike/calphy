@@ -248,7 +248,7 @@ class Liquid(cph.Phase):
         lmp.command("variable         blambda equal 1.0-v_flambda")
 
         lmp.command(
-            "pair_style       hybrid/scaled v_flambda %s v_blambda ufm %f"
+            "pair_style       hybrid/scaled/kk v_flambda %s v_blambda ufm %f"
             % (self.calc._pair_style_with_options[0], self.ufm_cutoff)
         )
 
@@ -348,7 +348,7 @@ class Liquid(cph.Phase):
         lmp.command("variable         blambda equal 1.0-v_flambda")
 
         lmp.command(
-            "pair_style       hybrid/scaled v_flambda %s v_blambda ufm %f"
+            "pair_style       hybrid/scaled/kk v_flambda %s v_blambda ufm %f"
             % (self.calc._pair_style_with_options[0], self.ufm_cutoff)
         )
 

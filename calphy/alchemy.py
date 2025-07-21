@@ -197,7 +197,7 @@ class Alchemy(cph.Phase):
         lmp.command("variable         flambda equal ramp(${li},${lf})")
         lmp.command("variable         blambda equal ramp(${lf},${li})")
     
-        #lmp.command("pair_style       hybrid/scaled v_flambda %s v_blambda ufm 7.5"%self.options["md"]["pair_style"])
+        #lmp.command("pair_style       hybrid/scaled/kk v_flambda %s v_blambda ufm 7.5"%self.options["md"]["pair_style"])
                     
         # Compute pair definitions
         if self.calc.pair_style[0] == self.calc.pair_style[1]:
@@ -216,7 +216,7 @@ class Alchemy(cph.Phase):
             pc2 = " ".join([*pcraw[:2], *[self.calc._pair_style_names[1],], *pcraw[2:]])
 
 
-        lmp.command("pair_style       hybrid/scaled v_flambda %s v_blambda %s"%(
+        lmp.command("pair_style       hybrid/scaled/kk v_flambda %s v_blambda %s"%(
             self.calc._pair_style_with_options[0],
             self.calc._pair_style_with_options[1]
             )
@@ -291,7 +291,7 @@ class Alchemy(cph.Phase):
         lmp.command("variable         blambda equal ramp(${li},${lf})")
         
         
-        lmp.command("pair_style       hybrid/scaled v_flambda %s v_blambda %s"%(self.calc._pair_style_with_options[0], 
+        lmp.command("pair_style       hybrid/scaled/kk v_flambda %s v_blambda %s"%(self.calc._pair_style_with_options[0], 
             self.calc._pair_style_with_options[1]))
         lmp.command("pair_coeff       %s"%pc1)
         lmp.command("pair_coeff       %s"%pc2)
