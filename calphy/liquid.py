@@ -79,13 +79,12 @@ class Liquid(cph.Phase):
                 % (self.calc._temperature_high, thmult)
             )
             factor = (self.calc._temperature_high / self.calc._temperature) * thmult
-            lmp.velocity(
-                "all create",
-                self.calc._temperature * factor,
-                np.random.randint(1, 10000),
+            seed = np.random.randint(1, 10000)
+            lmp.command(
+                f"velocity all create {self.calc._temperature * factor} {seed}"
             )
             self.fix_nose_hoover(lmp, temp_start_factor=factor, temp_end_factor=factor)
-            lmp.run(int(self.calc.md.n_small_steps))
+            lmp.command(f"run {int(self.calc.md.n_small_steps)}")
             self.unfix_nose_hoover(lmp)
 
             self.dump_current_snapshot(lmp, "traj.melt")
@@ -147,8 +146,9 @@ class Liquid(cph.Phase):
         lmp = ph.set_mass(lmp, self.calc)
 
         # Melt regime for the liquid
-        lmp.velocity(
-            "all create", self.calc._temperature_high, np.random.randint(1, 10000)
+        seed = np.random.randint(1, 10000)
+        lmp.command(
+            f"velocity all create {self.calc._temperature_high} {seed}"
         )
 
         # add some computes
